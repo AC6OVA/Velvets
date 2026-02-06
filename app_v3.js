@@ -577,27 +577,14 @@ function initParallax() {
 
     // Scroll Logic: Header & Parallax
     let lastScrollY = 0;
+    // Scroll Listener Removed for Performance
     window.addEventListener('scroll', () => {
         const scrollY = window.scrollY;
-
-        // Header Two-Tone Toggle
+        // Simple Header Toggle only
         const header = document.getElementById('main-header');
         if (header) {
-            if (scrollY > 50) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
+            header.classList.toggle('scrolled', scrollY > 50);
         }
-
-        // Shift Dopamine Words vertically
-        dopamineNodes.forEach((node, i) => {
-            const speed = (i + 1) * 0.15; // Varying speeds
-            const yOffset = scrollY * speed;
-            node.style.marginTop = `${yOffset}px`; // Use margin to avoid conflict with top/left/transform
-        });
-
-        lastScrollY = scrollY;
     });
 
     function animateParallax() {
