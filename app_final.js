@@ -1579,31 +1579,42 @@ function renderGrid() {
 function initGridReveal() {
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
-        threshold: 0.15 // Trigger when 15% visible
+        rootMargin: '100px', // Pre-load 100px before
+        threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
-                observer.unobserve(entry.target); // Only animate once
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Observe existing items
-    document.querySelectorAll('.grid-item').forEach(item => {
-        observer.observe(item);
-    });
+    // Safety Fallback: Force visible after 2 seconds if index fails
+    setTimeout(() => {
+        document.querySelectorAll('.grid-item:not(.visible)').forEach(item => {
+            item.classList.add('visible');
+            // FORCE STYLE OVERRIDE
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        });
+    }, 2000);
 
-    // Hook into renderGrid to observe new items if re-rendered
-    const originalRenderGrid = renderGrid;
-    window.renderGrid = function () {
-        originalRenderGrid();
+    const observeItems = () => {
         document.querySelectorAll('.grid-item').forEach(item => {
             observer.observe(item);
         });
+    };
+
+    observeItems();
+
+    // Hook into renderGrid
+    const originalRenderGrid = renderGrid;
+    window.renderGrid = function () {
+        originalRenderGrid();
+        observeItems();
     };
 }
 
