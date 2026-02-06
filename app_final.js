@@ -1575,58 +1575,77 @@ function renderGrid() {
     });
 }
 
-// --- SCROLL REVEAL ---
+// --- SCROLL REVEAL (ROBUST) ---
 function initGridReveal() {
-    const observerOptions = {
-        root: null,
-        rootMargin: '100px', // Pre-load 100px before
-        threshold: 0.1
-    };
+    console.log("Init: Grid Reveal System");
 
-    const observer = new IntersectionObserver((entries, observer) => {
+    // Observer Logic (Primary)
+    const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
+                // Ensure opacity is set (override inline styles if needed)
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
                 observer.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.05, rootMargin: '200px' }); // Very eager triggering
 
-    // Safety Fallback: Force visible after 2 seconds if index fails
-    setTimeout(() => {
-        document.querySelectorAll('.grid-item:not(.visible)').forEach(item => {
-            item.classList.add('visible');
-            // FORCE STYLE OVERRIDE
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-        });
-    }, 2000);
-
-    const observeItems = () => {
-        document.querySelectorAll('.grid-item').forEach(item => {
-            observer.observe(item);
-        });
+    // Helper to attach observer
+    const attachObserver = () => {
+        const items = document.querySelectorAll('.grid-item');
+        console.log(`[GridReveal] Attaching observer to ${items.length} items.`);
+        items.forEach(item => observer.observe(item));
     };
 
-    observeItems();
+    // Initial Attachment
+    attachObserver();
 
-    // Hook into renderGrid
+    // FAILSAFE: Global Interval Check (Aggressive)
+    // Runs every 1s to check for hidden items in viewport
+    setInterval(() => {
+        const grid = document.getElementById('product-grid');
+        if (!grid) return;
+
+        // Only run if grid actually has children
+        if (grid.children.length > 0) {
+            const items = document.querySelectorAll('.grid-item:not(.visible)');
+            if (items.length > 0) {
+                // console.log(`[GridReveal] Found ${items.length} hidden items. Forcing visibility...`);
+                items.forEach(item => {
+                    // Check if actually in viewport roughly
+                    const rect = item.getBoundingClientRect();
+                    if (rect.top < window.innerHeight + 500) { // If near viewport
+                        item.classList.add('visible');
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }
+                });
+            }
+        }
+    }, 1000);
+
+    // Hook into renderGrid to ensure new items get observed
     const originalRenderGrid = renderGrid;
     window.renderGrid = function () {
+        console.log("[GridReveal] renderGrid hook triggered.");
         originalRenderGrid();
-        // Force Reflow to ensure elements exist in DOM before observing
-        void document.body.offsetHeight;
-        observeItems();
 
-        // AUTO-REVEAL SAFETY (Brute Force)
-        // If they are not visible within 500ms, force them.
+        // Immediate attach
+        attachObserver();
+
+        // Force Reflow
+        void document.body.offsetHeight;
+
+        // Brute Force Visible after short delay
         setTimeout(() => {
-            document.querySelectorAll('.grid-item:not(.visible)').forEach(item => {
+            document.querySelectorAll('.grid-item').forEach(item => {
                 item.classList.add('visible');
                 item.style.opacity = '1';
                 item.style.transform = 'translateY(0)';
             });
-        }, 500);
+        }, 300); // 300ms delay to allow render
     };
 }
 
