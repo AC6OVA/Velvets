@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Velvets</title>
+    <link rel="stylesheet" href="styles.css?v=2026">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.14/vue.min.js"></script>
+    <script src="https://unpkg.com/vue-the-mask@0.11.1/dist/vue-the-mask.js"></script>
+    <script src="products_final.js?v=2042"></script>
+    <script src="app_final.js?v=2042"></script>
+    <script src="card_vue.js?v=2042" defer></script>
+</head>
+
+<body class="loading">
+    <div id="preloader">
+        <div class="loader-text">INITIALIZING VELVETS_PROTOCOL...</div>
+    </div>
+
+    <!-- SCENE WRAPPER FOR TILT (Backgrounds Only) -->
+    <div id="scene-wrapper">
+        <!-- Layer 0: Background Layers -->
+        <div id="background-container">
+            <div id="bg-far" class="bg-layer"></div>
+            <div id="bg-mid" class="bg-layer"></div>
+            <div id="bg-foreground" class="bg-layer"></div>
+        </div>
+
+        <!-- Light Pass Overlay -->
+        <div id="light-pass"></div>
+
+        <!-- Spotlight Glow Interaction -->
+        <div id="spotlight-glow"></div>
+
+        <!-- Psychology Layer -->
+        <div id="psych-layer"></div>
+
+        <!-- Noise Overlay for Micro-motion -->
+        <div id="noise-overlay"></div>
+        <div id="hero-flash"></div>
+
+    </div>
+    <!-- END SCENE WRAPPER -->
+
+    <!-- MAIN SCROLL FLOW -->
+    <main id="main-content" style="position: relative; z-index: 20;">
+
+        <!-- Layer 1: Wheels (Flow Item) -->
+        <div id="wheelClusterContainer"></div>
+
+        <!-- SPOTLIGHT (Flow Item) -->
+        <div id="spotlightContainer">
+            <!-- Image element inserted here for logic to target -->
+            <img id="spotlight-image" src="" alt="">
+        </div>
+
+    </main>
+    <!-- END SCENE WRAPPER -->
+
+    <!-- HUD HEADER (Minimalist) -->
+    <!-- REBRAND: Split Header -> Gradient Header -->
+    <header id="main-header">
+        <h1 class="brand-logo">VELVETS</h1>
+
+        <!-- Center Nav Removed -->
+
+        <div class="header-right">
+            <div class="cart-icon" id="cartIcon">
+                CART <span id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- REBRAND: Bottom Anchor System (Fixed) -->
+    <div id="brand-anchor-v" class="v-anchor-container">
+        <!-- SVG will be injected or styled here -->
+        <svg class="v-mark-svg" viewBox="0 0 100 100">
+            <!-- 1. The Visible Primary V Shape -->
+            <path class="v-main-shape" d="M 30 25 L 50 85 L 70 25" />
+
+            <!-- 2. Offset Text Paths (Invisible guide for text) -->
+            <!-- Offset Left for "Private" (Descending) - Extended MAX -->
+            <path id="path-left" d="M 10 -5 L 44 110" fill="none" stroke="transparent" />
+
+            <!-- Offset Right for "Indulgence" (Ascending) - Extended MAX -->
+            <path id="path-right" d="M 56 110 L 90 -5" fill="none" stroke="transparent" />
+
+            <!-- 3. Text Elements -->
+            <text class="v-text left-stroke">
+                <textPath href="#path-left" startOffset="50%" text-anchor="middle">Private</textPath>
+            </text>
+            <text class="v-text right-stroke">
+                <textPath href="#path-right" startOffset="50%" text-anchor="middle">Indulgence</textPath>
+            </text>
+        </svg>
+    </div>
+
+    <!-- PRODUCT GRID SECTION (Below Fold) -->
+    <section id="product-grid" class="product-grid"></section>
+
+    <!-- CART PANEL (Slide-in) -->
+    <div id="cart-panel" class="cart-panel">
+        <div class="cart-header">
+            <h2>YOUR BAG (<span id="cart-count-header">0</span>)</h2>
+            <button id="closeCart">×</button>
+        </div>
+
+        <div id="cart-items" class="cart-items">
+            <!-- Items injected here -->
+            <div class="empty-cart-message">Your bag is empty.</div>
+        </div>
+
+        <div class="cart-footer">
+            <div class="cart-subtotal">
+                <span>SUBTOTAL</span>
+                <span id="cart-total">$0.00</span>
+            </div>
+            <button id="checkoutBtn">CHECKOUT</button>
+            <button id="continueShoppingBtn">CONTINUE SHOPPING</button>
+        </div>
+    </div>
+    <!-- Cart Overlay -->
+    <div id="cart-overlay" class="cart-overlay"></div>
+
+    <!-- CHECKOUT OVERLAY (Visual Only) -->
+    <div id="checkout-overlay" class="checkout-overlay">
+        <div class="checkout-container">
+            <div class="checkout-header">
+                <h2>SECURE CHECKOUT</h2>
+                <button id="closeCheckout">×</button>
+            </div>
+
+            <div class="checkout-body">
+                <!-- SINGLE COL: PAYMENT ONLY -->
+                <div class="checkout-payment" id="card-mount-point">
+                    <div class="express-pay-section">
+                        <button class="express-btn apple-pay"> Pay</button>
+                        <button class="express-btn g-pay"
+                            style="color: #fff; background: #000; border: 1px solid #333;">
+                            <span style="color:#4285F4">G</span> <span style="color:#EA4335">P</span><span
+                                style="color:#FBBC05">a</span><span style="color:#34A853">y</span>
+                        </button>
+                    </div>
+                    <div class="divider">OR PAY WITH CARD</div>
+
+                    <!-- VUE CARD VISUALIZATION -->
+                    <div class="card-item" v-bind:class="{ '-active': isCardFlipped }">
+                        <div class="card-item__side -front">
+                            <div class="card-item__focus" v-bind:class="{ '-active': focusElementStyle }"
+                                v-bind:style="focusElementStyle" ref="focusElement"></div>
+                            <div class="card-item__cover">
+                                <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg"
+                                    class="card-item__bg">
+                            </div>
+                            <div class="card-item__wrapper">
+                                <div class="card-item__top">
+                                    <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/chip.png"
+                                        class="card-item__chip">
+                                    <div class="card-item__type">
+                                        <transition name="slide-fade-up">
+                                            <img v-bind:src="'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/' + getCardType + '.png'"
+                                                v-if="getCardType" key class="card-item__typeImg" alt=""
+                                                class="card-item__typeImg">
+                                        </transition>
+                                    </div>
+                                </div>
+                                <label for="cardNumber" class="card-number" ref="cardNumber">
+                                    <template v-if="getCardType === 'amex'">
+                                        <span v-for="(n, $index) in amexCardMask" :key="$index">
+                                            <transition name="slide-fade-up">
+                                                <div class="card-item__numberItem"
+                                                    v-if="$index > 4 && $index < 15 && cardNumber.length > $index && n.trim() !== ''">
+                                                    *</div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" :key="$index"
+                                                    v-else-if="cardNumber.length > $index">
+                                                    {{cardNumber[$index]}}
+                                                </div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" v-else :key="$index + 1">
+                                                    {{n}}</div>
+                                            </transition>
+                                        </span>
+                                    </template>
+                                    <template v-else>
+                                        <span v-for="(n, $index) in otherCardMask" :key="$index">
+                                            <transition name="slide-fade-up">
+                                                <div class="card-item__numberItem"
+                                                    v-if="$index > 4 && $index < 15 && cardNumber.length > $index && n.trim() !== ''">
+                                                    *</div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" :key="$index"
+                                                    v-else-if="cardNumber.length > $index">
+                                                    {{cardNumber[$index]}}
+                                                </div>
+                                                <div class="card-item__numberItem"
+                                                    :class="{ '-active' : n.trim() === '' }" v-else :key="$index + 1">
+                                                    {{n}}</div>
+                                            </transition>
+                                        </span>
+                                    </template>
+                                </label>
+                                <div class="card-item__content">
+                                    <label for="cardName" class="card-item__info" ref="cardName">
+                                        <div class="card-item__holder">Card Holder</div>
+                                        <transition name="slide-fade-up">
+                                            <div class="card-item__name" v-if="cardName.length" key="1">
+                                                <transition-group name="slide-fade-right">
+                                                    <span class="card-item__nameItem"
+                                                        v-for="(n, $index) in cardName.replace(/\s\s+/g, ' ')"
+                                                        v-if="$index === $index" v-bind:key="$index + 1">{{n}}</span>
+                                                </transition-group>
+                                            </div>
+                                            <div class="card-item__name" v-else key="2">FULL NAME</div>
+                                        </transition>
+                                    </label>
+                                    <div class="card-item__date" ref="cardDate">
+                                        <label for="cardMonth" class="card-item__dateTitle">Expires</label>
+                                        <label for="cardMonth" class="card-item__dateItem">
+                                            <transition name="slide-fade-up">
+                                                <span v-if="cardMonth" v-bind:key="cardMonth">{{cardMonth}}</span>
+                                                <span v-else key="2">MM</span>
+                                            </transition>
+                                        </label>
+                                        /
+                                        <label for="cardYear" class="card-item__dateItem">
+                                            <transition name="slide-fade-up">
+                                                <span v-if="cardYear"
+                                                    v-bind:key="cardYear">{{String(cardYear).slice(2,4)}}</span>
+                                                <span v-else key="2">YY</span>
+                                            </transition>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-item__side -back">
+                            <div class="card-item__cover">
+                                <img src="https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/22.jpeg"
+                                    class="card-item__bg">
+                            </div>
+                            <div class="card-item__band"></div>
+                            <div class="card-item__cvv">
+                                <div class="card-item__cvvTitle">CVC</div>
+                                <div class="card-item__cvvBand">{{cardCvv}}</div>
+                                <div class="card-item__type">
+                                    <img v-bind:src="'https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/' + getCardType + '.png'"
+                                        v-if="getCardType" class="card-item__typeImg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FORM -->
+                    <form class="payment-form" onsubmit="event.preventDefault();">
+                        <div class="card-input">
+                            <label for="cardNumber" class="card-input__label">Card Number</label>
+                            <input type="text" id="cardNumber" class="card-input__input" v-mask="generateCardNumberMask"
+                                v-model="cardNumber" v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardNumber"
+                                autocomplete="off" maxlength="19">
+                        </div>
+                        <div class="card-input">
+                            <label for="cardName" class="card-input__label">Card Holders</label>
+                            <input type="text" id="cardName" class="card-input__input" v-model="cardName"
+                                v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardName" autocomplete="off">
+                        </div>
+                        <div class="row">
+                            <div class="card-input half">
+                                <label for="cardMonth" class="card-input__label">Expiration Date</label>
+                                <div class="row" style="gap: 5px;">
+                                    <select class="card-input__input" id="cardMonth" v-model="cardMonth"
+                                        v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate"
+                                        style="flex:1;">
+                                        <option value="" disabled selected>Month</option>
+                                        <option v-bind:value="n < 10 ? '0' + n : n" v-for="n in 12"
+                                            v-bind:disabled="n < minCardMonth" v-bind:key="n">
+                                            {{n < 10 ? '0' + n : n}} </option>
+                                    </select>
+                                    <select class="card-input__input" id="cardYear" v-model="cardYear"
+                                        v-on:focus="focusInput" v-on:blur="blurInput" data-ref="cardDate"
+                                        style="flex:1;">
+                                        <option value="" disabled selected>Year</option>
+                                        <option v-bind:value="$index + minCardYear" v-for="(n, $index) in 12"
+                                            v-bind:key="n">
+                                            {{$index + minCardYear}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="card-input half">
+                                <label for="cardCvv" class="card-input__label">CVV</label>
+                                <input type="text" class="card-input__input" id="cardCvv" v-mask="'####'" maxlength="4"
+                                    v-model="cardCvv" v-on:focus="flipCard(true)" v-on:blur="flipCard(false)"
+                                    autocomplete="off">
+                            </div>
+                        </div>
+                        <button id="completeOrderBtn" class="pay-btn" v-on:click="submitPayment">PAY NOW</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success State (Hidden by default) -->
+        <div id="checkout-success" class="checkout-success hidden">
+            <div class="success-icon">✓</div>
+            <h3>ORDER CONFIRMED</h3>
+            <p>Thank you for your purchase.</p>
+            <button id="successCloseBtn">RETURN TO STORE</button>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="hidden">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <button id="closeModal">×</button>
+
+            <!-- Left Column: Image -->
+            <div class="modal-image-col">
+                <img id="modal-img" src="" alt="Product Preview">
+            </div>
+
+            <!-- Right Column: Info & Controls -->
+            <div class="modal-info-col">
+                <h2 id="modal-title">Product Title</h2>
+                <p id="modal-price">$0.00</p>
+
+                <!-- Color Selector Area -->
+                <div class="variant-group">
+                    <label>Color: <span id="selected-color-name">Select</span>
+                        <div id="active-swatch-indicator" class="active-swatch-indicator"></div>
+                    </label>
+                    <div class="variant-options" id="variant-options">
+                        <!-- JS Injected Thumbnails -->
+                    </div>
+                </div>
+
+                <!-- Size Selector Area -->
+                <div class="variant-group">
+                    <label>Size: <span id="selected-size-name">Select</span></label>
+                    <div class="size-options" id="size-options">
+                        <!-- JS Injected Buttons -->
+                    </div>
+                </div>
+
+                <!-- Quantity Selector (New) -->
+                <div class="variant-group" style="margin-top: 15px;">
+                    <label>Quantity</label>
+                    <div class="quantity-control">
+                        <button id="qty-minus" class="qty-btn">−</button>
+                        <input type="number" id="qty-input" value="1" min="1" max="20" readonly>
+                        <button id="qty-plus" class="qty-btn">+</button>
+                    </div>
+                </div>
+
+                <!-- Purchase CTA -->
+                <button id="addToBagBtn">ADD TO BAG</button>
+
+                <!-- Tabbed Info System -->
+                <!-- Tabs Removed -->
+            </div>
+        </div>
+    </div>
+
+</body>
+
+<!-- SCRIPTS -->
+
+</html>

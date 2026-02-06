@@ -1,0 +1,3242 @@
+/* styles.css - Restored */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pinyon+Script&display=swap');
+
+:root {
+    --text-color: #ffffff;
+    --brand-blue: #4A6984;
+    --dark-bg: #000000;
+}
+
+html,
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    /* Fix: Prevent white background on overscroll/diagonal scroll */
+    background-color: var(--dark-bg);
+    overflow-x: hidden;
+}
+
+/* ... (omitted body styles) ... */
+
+/* --- DOPAMINE WORDS (PERSISTENT & CLEAN HANDWRITING) --- */
+.dopamine-word {
+    position: fixed;
+    /* High-Fashion Cursive Font */
+    font-family: "Pinyon Script", cursive;
+    font-size: 6rem;
+    /* Larger for atmospheric background feel */
+    letter-spacing: 2px;
+    line-height: 1;
+
+    /* Refined Dual-Tone: Primary + Soft Dimensional Shadow */
+    color: rgba(255, 255, 255, 0.8);
+    text-shadow:
+        4px 4px 0px rgba(0, 0, 0, 0.4),
+        /* Deep depth */
+        0 0 30px var(--dopamine-tint, rgba(255, 215, 0, 0.15));
+    /* Soft colored glow */
+
+    pointer-events: none;
+    user-select: none;
+    z-index: 5;
+    /* Deep Background: Above BG (-10), Below Wheels (50) */
+    opacity: 0.35;
+    /* Subtle integration */
+    filter: blur(0.5px);
+    /* Soften edges for depth */
+
+    will-change: transform, opacity, color, text-shadow;
+    transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
+        opacity 0.6s ease,
+        color 0.6s ease,
+        text-shadow 0.6s ease;
+    /* Dynamic Color Variables (Set by JS) */
+    --dopamine-tint: #FFD700;
+}
+
+@media (max-width: 768px) {
+    .dopamine-word {
+        font-size: 2rem;
+        /* Reduce for mobile */
+    }
+}
+
+/* The "Active" word (Try On) */
+.dopamine-word.interactive {
+    cursor: pointer;
+    pointer-events: auto;
+    /* Distinct Gold Metallic Look */
+    color: #FFF8E7;
+    /* Distinct Gold Metallic Look */
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.3), 2px 2px 0px var(--dopamine-tint, #C5A000);
+    /* Darker Gold Shadow */
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="%23FFD700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>') 16 16, pointer;
+    /* Gold Eye Cursor */
+    /* Darker Gold Shadow */
+    z-index: 1600;
+    opacity: 1;
+}
+
+.dopamine-word.interactive:hover,
+.dopamine-word.interactive.magnetic-active {
+    transform: scale(1.05) skewX(-5deg);
+    text-shadow:
+        0 0 25px rgba(255, 215, 0, 0.6),
+        3px 3px 0px var(--dopamine-tint, #FFD700);
+}
+
+.dopamine-word.interactive:active {
+    transform: scale(0.95);
+}
+
+.dopamine-word.try-on-active {
+    animation: heartbeat 3s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+        opacity: 0.85;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+        text-shadow: 0px 0px 20px rgba(255, 215, 0, 0.6), 2px 2px 0px #FFD700;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.85;
+    }
+}
+
+/* SCENE WRAPPER */
+#scene-wrapper {
+    position: fixed;
+    /* Changed from relative to allow content overlay */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    /* Force full height */
+    overflow: hidden;
+    perspective: 1000px;
+    z-index: 10;
+}
+
+/* Hero Flash Transition */
+#hero-flash {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.hero-flash-active {
+    animation: flashAnim 0.4s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes flashAnim {
+    0% {
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+/* Static Glitch Behavior (No continuous drift) */
+.dopamine-word.glitch-sync {
+    animation: glitchCyber 0.3s steps(3) forwards;
+}
+
+/* Slow Drift Animation (15s Loop) */
+@keyframes dopamineDrift {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+
+    25% {
+        transform: translate(10px, -10px) rotate(2deg);
+    }
+
+    50% {
+        transform: translate(-5px, 5px) rotate(-1deg);
+    }
+
+    75% {
+        transform: translate(-10px, -5px) rotate(1deg);
+    }
+
+    100% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+}
+
+.dopamine-word.drifting {
+    animation: dopamineDrift 18s ease-in-out infinite alternate;
+}
+
+
+
+.dopamine-word.glitch-sync {
+    /* Override drift with aggressive glitch during transition */
+    animation: glitchCyber 0.4s steps(4) forwards;
+}
+
+@keyframes fadeFloat {
+    0% {
+        opacity: 0;
+        transform: scale(0.8) translateY(20px);
+    }
+
+    20% {
+        opacity: 0.8;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(1.1) translateY(-20px);
+    }
+}
+
+@keyframes textFlicker {
+    0% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 0.6;
+    }
+
+    100% {
+        opacity: 0.8;
+    }
+}
+
+/* --- TRY ON RIBBON --- */
+/* (Replaced by interactive dopamine node) */
+
+/* --- GLITCH TRANSITIONS --- */
+
+/* Spotlight Glitch (Restored & Aggressive) */
+.glitch-active {
+    animation: glitchCyber 0.4s steps(4) forwards;
+    /* initial filter state to be overridden by keyframes or composed with them */
+    will-change: transform, filter, clip-path;
+}
+
+@keyframes glitchCyber {
+    0% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0) scale(1) skew(0deg);
+        filter: hue-rotate(0deg) drop-shadow(0 0 0 transparent);
+    }
+
+    20% {
+        clip-path: inset(10% 0 40% 0);
+        transform: translate(-5px, 3px) scale(1.02) skew(2deg);
+        filter: hue-rotate(90deg) drop-shadow(-3px 0 red) drop-shadow(3px 0 blue);
+    }
+
+    40% {
+        clip-path: inset(40% 0 10% 0);
+        transform: translate(5px, -3px) scale(0.98) skew(-2deg);
+        filter: hue-rotate(-90deg) drop-shadow(3px 0 cyan) drop-shadow(-3px 0 magenta);
+    }
+
+    60% {
+        clip-path: inset(20% 0 60% 0);
+        transform: translate(-3px, 0) scale(1.05) skew(1deg);
+        filter: hue-rotate(45deg) drop-shadow(-2px 0 lime);
+    }
+
+    80% {
+        clip-path: inset(60% 0 20% 0);
+        transform: translate(2px, 2px) scale(1) skew(-1deg);
+        filter: invert(0.1);
+    }
+
+    100% {
+        clip-path: inset(0 0 0 0);
+        transform: translate(0) scale(1) skew(0deg);
+        filter: none;
+    }
+}
+
+/* Modal Entry Glitch */
+.modal-glitch-entry .modal-content {
+    animation: modalGlitchSnap 0.45s cubic-bezier(0.1, 0.9, 0.2, 1) forwards;
+}
+
+@keyframes modalGlitchSnap {
+    0% {
+        clip-path: circle(0% at 50% 50%);
+        transform: scale(0.9) skewX(10deg);
+        filter: hue-rotate(90deg);
+    }
+
+    30% {
+        clip-path: circle(120% at 50% 50%);
+        transform: scale(1.02) skewX(-5deg);
+        filter: hue-rotate(-45deg);
+    }
+
+    60% {
+        transform: scale(0.99) skewX(2deg);
+        filter: hue-rotate(0deg);
+    }
+
+    100% {
+        clip-path: circle(150% at 50% 50%);
+        transform: scale(1) skewX(0);
+    }
+}
+
+/* --- DEPTH & ATMOSPHERE --- */
+
+#background-container {
+    position: absolute;
+    /* Scroll with Hero */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -10;
+    overflow: hidden;
+}
+
+.bg-layer {
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    width: 110%;
+    height: 110%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transition: transform 0.1s linear;
+    /* Smooth parallax */
+}
+
+#bg-far {
+    background-image: url('backgroundScene.png');
+    filter: blur(2px) brightness(0.4);
+    z-index: 1;
+    transform: scale(1.1);
+}
+
+#bg-mid {
+    background-image: url('backgroundScene.png');
+    z-index: 2;
+    transform: scale(1.05);
+    /* Slight scale to prevent edge bleed */
+    /* Depth of Field Blur */
+    filter: blur(2px);
+    /* Blend mode to mix with far layer if needed, or just opaque */
+}
+
+#bg-foreground {
+    background: transparent;
+    z-index: 3;
+    pointer-events: none;
+}
+
+/* Atmospheric Particles */
+.particle {
+    position: absolute;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%);
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatParticle linear infinite;
+    pointer-events: none;
+    /* Soften edges for bokeh effect */
+    filter: blur(2px);
+    mix-blend-mode: screen;
+}
+
+@keyframes floatParticle {
+    0% {
+        transform: translateY(100vh) scale(0);
+        opacity: 0;
+    }
+
+    20% {
+        opacity: 0.5;
+        transform: translateY(80vh) scale(1);
+    }
+
+    80% {
+        opacity: 0.5;
+        transform: translateY(20vh) scale(1);
+    }
+
+    100% {
+        transform: translateY(-10vh) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Spotlight Glow */
+#spotlight-glow {
+    position: absolute;
+    /* Scrollable */
+    top: 140px;
+    /* Align with spotlight container */
+    right: 40px;
+    width: 350px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 215, 0, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    filter: blur(40px);
+    z-index: 4;
+    /* Below wheels (50) and spotlight (950) but above bg */
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+    animation: glowPulse 4s infinite alternate;
+}
+
+@keyframes glowPulse {
+    from {
+        opacity: 0.5;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: 0.8;
+        transform: scale(1.05);
+    }
+}
+
+/* REBRAND: Header Styles */
+/* REBRAND: Header Styles */
+#main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 80px;
+    padding: 0 40px;
+    display: flex;
+    justify-content: flex-end;
+    /* Only Cart on right, Logo absolute center */
+    align-items: center;
+    z-index: 2000;
+    box-sizing: border-box;
+    background-color: rgba(0, 0, 0, 0.95);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+    transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* Absolute Center Logo */
+.brand-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 1.8rem;
+    /* Slightly larger */
+    letter-spacing: 0.3rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+
+    /* Solid Blue (#4A6984) - No Gradient */
+    color: #4A6984;
+    transition: all 0.3s ease;
+}
+
+/* Remove Scrolled Text Color Updates (Gradient is permanent) */
+#main-header.scrolled {
+    background-color: #000;
+    /* Solid black on scroll */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.8);
+}
+
+.header-right {
+    font-family: 'Cinzel', serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.1rem;
+    color: #FFFFFF;
+    /* Keep white */
+}
+
+/* --- DESKTOP LAYOUT (min-width: 769px) --- */
+@media screen and (min-width: 769px) {
+
+    /* --- WHEEL LAYOUT --- */
+    #main-content {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        /* Vertically center them relative to each other */
+        min-height: 80vh;
+        /* Ensure tall enough canvas */
+        max-width: 1600px;
+        margin: 0 auto;
+        padding-top: 100px;
+        /* Header clearance */
+        position: relative;
+        z-index: 30;
+    }
+
+    #wheelClusterContainer {
+        position: relative;
+        width: 35%;
+        /* Left Column */
+        order: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        /* Center wheels within the left column logic, or flex-start? User said "Left side". */
+        /* Let's try align-items: flex-start but adding padding-left to push them slightly in */
+        align-items: flex-end;
+        /* Push them towards the center gutter? Or pure left? */
+        /* User said: "Move the three cursor wheels back to the LEFT side of the screen" */
+        /* I will use flex-start and padding-left */
+        align-items: center;
+        /* Keeping them centered in their column looks best usually */
+        margin-top: 0;
+        gap: 60px;
+        /* Vertical spacing between wheels */
+        padding-left: 2%;
+    }
+
+
+
+    .wheelContainer {
+        position: relative;
+        width: 240px;
+        height: 200px;
+        perspective: 1000px;
+        /* Slight rotation for style? */
+        transform: rotateY(15deg);
+    }
+
+    /* --- SPOTLIGHT --- */
+    #spotlightContainer {
+        position: relative;
+        width: 60%;
+        /* Right Column */
+        order: 2;
+        top: auto;
+        right: auto;
+        height: auto;
+        min-height: 60vh;
+        display: flex;
+        justify-content: flex-end;
+        /* RIGHT ALIGNMENT FIX */
+        align-items: center;
+        z-index: 40;
+        margin: 0;
+        padding-right: 5%;
+        /* Balance with left padding */
+        pointer-events: none;
+    }
+
+    /* ... (skip to checkout) ... */
+
+    .checkout-container {
+        background: #111;
+        width: 900px;
+        max-width: 95vw;
+        height: auto;
+        /* max-height: 95vh; */
+        min-height: 700px;
+        /* Force minimum height to show card */
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        overflow: visible;
+    }
+
+    #spotlight-image {
+        width: auto;
+        max-width: 90vw;
+        height: 50vh;
+        max-height: 500px;
+        object-fit: contain;
+        border-radius: 12px;
+        pointer-events: auto;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        transition: transform 0.3s ease, opacity 0.5s ease;
+    }
+
+    #spotlight-image:hover {
+        transform: scale(1.02);
+    }
+
+    /* --- PRODUCT GRID --- */
+    .product-grid {
+        position: relative;
+        width: 100%;
+        min-height: 100vh;
+        background: #000;
+        z-index: 20;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        padding-top: 10px;
+        margin-top: 0;
+    }
+
+    .grid-item {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 3 / 4;
+        height: auto;
+        overflow: hidden;
+        cursor: pointer;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        margin: 0;
+    }
+
+    .grid-item img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        transition: transform 0.5s ease;
+    }
+
+    /* Desktop Hover Logic */
+    .grid-info {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        transform: translateY(100%);
+        transition: transform 0.3s ease;
+        pointer-events: none;
+    }
+
+    .grid-item:hover .grid-info {
+        transform: translateY(0);
+    }
+}
+
+/* --- MOBILE ADJUSTMENTS --- */
+@media screen and (max-width: 768px) {
+    #wheelClusterContainer {
+        position: relative;
+        margin-top: 0;
+        padding-top: 60px;
+        /* Offset for visual centering accounting for header */
+        min-height: 100vh;
+        /* Full screen hero */
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        /* Vertical Center */
+        align-items: center;
+        /* Horizontal Center */
+        gap: 20px;
+        padding-bottom: 20px;
+    }
+
+    /* Shrink Wheels to show background */
+    .wheelContainer {
+        transform: scale(0.75);
+        /* 75% size */
+        margin-bottom: -40px;
+        /* Pull them closer since they are smaller */
+    }
+
+    #wheelClusterContainer {
+        gap: 0;
+        /* Minimal gap since scale handles spacing */
+    }
+
+    /* --- MOBILE REFLOW & OVERFLOW PROTECTION --- */
+    html,
+    body {
+        overflow-x: hidden !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        position: relative;
+        /* Force Flex Column Strategy */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* Anchor to Left Viewport Edge */
+        margin: 0;
+        padding: 0;
+    }
+
+    #scene-wrapper {
+        width: 100vw !important;
+        max-width: 100vw !important;
+        overflow: hidden !important;
+    }
+
+    /* Constrain Background Layers (Found to be 550px) */
+    .bg-layer {
+        max-width: 100vw !important;
+        overflow: hidden !important;
+    }
+
+    #main-content {
+        transform: none !important;
+        left: 0 !important;
+        margin-left: 0 !important;
+        width: 100vw !important;
+        max-width: 100vw !important;
+        overflow-x: hidden !important;
+        overflow-y: visible !important;
+        /* CRITICAL: Allow flow */
+        height: auto !important;
+        /* Strict Clipping */
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        /* Anchor to Left */
+    }
+
+    #wheelClusterContainer {
+        height: auto;
+        min-height: 60vh;
+        /* Allow flow */
+        width: 100vw !important;
+        max-width: 100vw !important;
+        overflow: visible !important;
+        /* Fix Scroll Lock */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+        padding-top: 50px;
+        margin: 0;
+        pointer-events: none !important;
+        /* ALLOW SCROLL THROUGH */
+        touch-action: pan-y !important;
+        /* FIX: Enable Vertical Scroll over container */
+    }
+
+    /* Re-enable clicks on wheels */
+    #wheelClusterContainer .wheelContainer,
+    #wheelClusterContainer .wheelItem {
+        pointer-events: auto !important;
+        touch-action: pan-y !important;
+        /* FIX: Enable Vertical Scroll over wheels */
+    }
+
+    #spotlightContainer {
+        /* Standard Centering */
+        width: 100vw !important;
+        /* Force Viewport Width */
+        position: relative;
+        left: auto;
+        right: auto;
+        margin: -20px 0 0 0;
+        /* Reduced Overlap */
+
+        min-height: auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        pointer-events: none !important;
+        /* FIX: Pass touches through */
+    }
+
+    #spotlight-image {
+        /* Bigger & Centered + Aggressive Left Adjust */
+        width: 98%;
+        height: auto;
+        max-height: 75vh;
+        object-fit: contain;
+        transform: none !important;
+        /* CRITICAL: Remove random offsets for true centering */
+        /* FINAL USER-CALIBRATED ALIGNMENT */
+
+        /* Manual Left Shift */
+        margin: 0 auto !important;
+        display: block;
+        position: relative !important;
+        top: auto !important;
+        left: auto !important;
+        pointer-events: auto !important;
+        touch-action: pan-y !important;
+        /* RESTORE SCROLLING */
+        cursor: grab;
+    }
+
+    .product-grid {
+        /* Mobile Grid Re-definition (orphaned by desktop scope) */
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+        background: #000;
+        z-index: 20;
+
+        /* Layout Adjustments */
+        margin-top: -60px !important;
+        padding-top: 0 !important;
+        gap: 2px !important;
+        /* Tight grid */
+        align-content: start !important;
+        min-height: auto !important;
+    }
+
+    .grid-item {
+        /* Mobile Item Re-definition */
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        height: auto;
+        aspect-ratio: 3 / 4;
+        /* Maintain consistency */
+        margin: 0;
+    }
+
+    .grid-item img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .grid-info {
+        /* Always visible or hidden on mobile? Usually hidden until tap or typically no hover effects */
+        display: none;
+        /* Simplify for now, or make static */
+    }
+
+    /* V-Mark Optimization */
+    #brand-anchor-v {
+        width: 140px;
+        bottom: 10px;
+        max-width: 40%;
+    }
+
+    /* Close Button Positioning */
+    #closeModal {
+        top: 10px;
+        right: 15px;
+        font-size: 2rem;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.5);
+        /* Background for text visibility over image */
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+
+        justify-content: center;
+        border-radius: 50%;
+    }
+}
+
+.wheelContainer {
+    position: relative;
+    width: 240px;
+    height: 200px;
+    /* Reduced height to fit 3 wheels vertically */
+    perspective: 1000px;
+    margin: 0 auto;
+    /* Center horizontally in container */
+}
+
+.wheelInnerRotator {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    animation: rotateCarousel 25s infinite linear;
+    transform-origin: center center;
+}
+
+.wheelItem {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 140px;
+
+    /* Variable-based transform logic handled in JS + inline styles */
+    /* transform: var(--base-transform) scale(var(--scale-factor)); */
+
+    transform-origin: center center;
+    backface-visibility: visible;
+    cursor: pointer;
+
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    background-color: #222;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    /* Centering Fix: compensator for top:50%/left:50% */
+    margin-left: -50px;
+    margin-top: -70px;
+
+    /* Stable Animation Props */
+    transition: transform 0.22s ease-out, filter 0.22s ease-out, box-shadow 0.22s ease-out;
+    will-change: transform;
+
+    /* Default State */
+    --scale-factor: 1;
+    filter: brightness(1) contrast(1);
+    z-index: 10;
+}
+
+.wheelItem:hover {
+    --scale-factor: 1.15;
+    /* Subtle Pop */
+    filter: brightness(1.2) contrast(1.05);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+    z-index: 100;
+    /* Attempt to bring to front visually */
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.wheelItem.selected {
+    --scale-factor: 1.25;
+    filter: brightness(1.3) contrast(1.1);
+    box-shadow: 0 0 0 2px #fff, 0 12px 32px rgba(255, 215, 0, 0.4);
+    z-index: 101;
+    border-color: #fff;
+}
+
+/* Pause on particular wheel hover */
+.wheelContainer:hover .wheelInnerRotator {
+    animation-play-state: paused;
+}
+
+/* Alternating rotation direction */
+#carousel-1 .wheelInnerRotator {
+    animation-direction: reverse;
+}
+
+@keyframes rotateCarousel {
+    from {
+        transform: translate3d(-50%, -50%, 0) rotateY(0deg);
+    }
+
+    to {
+        transform: translate3d(-50%, -50%, 0) rotateY(360deg);
+    }
+}
+
+/* Spotlight Preservation (Removed - Defined in Flow Section) */
+
+/* Psych Layer */
+#psych-layer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.psych-word {
+    position: absolute;
+    font-family: serif;
+    font-size: 3rem;
+    font-style: italic;
+    opacity: 0;
+    color: rgba(255, 255, 255, 0.05);
+    animation: floatWord linear forwards;
+}
+
+@keyframes floatWord {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    20% {
+        opacity: 0.2;
+    }
+
+    80% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+}
+
+/* --- FINAL UI ADDITIONS --- */
+
+/* 1. Background Micro-Motion & Noise */
+#noise-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    z-index: 2;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E");
+    animation: grainShift 8s steps(10) infinite;
+}
+
+@keyframes grainShift {
+
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    10% {
+        transform: translate(-5%, -5%);
+    }
+
+    20% {
+        transform: translate(5%, 5%);
+    }
+
+    30% {
+        transform: translate(-5%, 5%);
+    }
+
+    40% {
+        transform: translate(5%, -5%);
+    }
+
+    50% {
+        transform: translate(-5%, 0);
+    }
+
+    60% {
+        transform: translate(5%, 0);
+    }
+
+    70% {
+        transform: translate(0, 5%);
+    }
+
+    80% {
+        transform: translate(0, -5%);
+    }
+
+    90% {
+        transform: translate(-5%, 5%);
+    }
+}
+
+/* 2. Dopamine Word Strike Animation */
+/* Removed conflicting dopamine-word styles */
+
+/* 3. Modal Styles */
+#productModal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    /* Ensure it covers EVERYTHING including dopamine words (1500) */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+#productModal:not(.hidden) {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+}
+
+.modal-content {
+    position: relative;
+    width: 900px;
+    height: 500px;
+    background: #111;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    display: flex;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+}
+
+/* --- ADDITIONS: PRELOADER & CART FEEDBACK --- */
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: #000;
+    z-index: 10000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.5s ease-out;
+}
+
+.loader-text {
+    font-family: monospace;
+    font-size: 1.2rem;
+    color: #FFD700;
+    animation: textFlicker 0.1s infinite;
+}
+
+.cart-pulse {
+    animation: cartShake 0.4s cubic-bezier(.36, .07, .19, .97) both;
+    color: #FFD700 !important;
+}
+
+@keyframes cartShake {
+
+    10%,
+    90% {
+        transform: translate3d(-1px, 0, 0) scale(1.2);
+    }
+
+    20%,
+    80% {
+        transform: translate3d(2px, 0, 0) scale(1.2);
+    }
+
+    30%,
+    50%,
+    70% {
+        transform: translate3d(-4px, 0, 0) scale(1.2);
+    }
+
+    40%,
+    60% {
+        transform: translate3d(4px, 0, 0) scale(1.2);
+    }
+}
+
+
+
+#productModal:not(.hidden) .modal-content {
+    transform: scale(1);
+}
+
+#closeModal {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#modal-desc {
+    display: none;
+    /* Hidden to prioritize CTA visibility */
+}
+
+/* Main Layout: 50/50 Split */
+.modal-image-col {
+    flex: 0 0 50%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+    position: relative;
+}
+
+#modal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* Ensure no extra space at bottom */
+}
+
+.modal-info-col {
+    flex: 0 0 50%;
+    height: 100%;
+    padding: 20px;
+    /* Reduced padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* Center vertically if space allows */
+    text-align: left;
+    box-sizing: border-box;
+    overflow-y: hidden;
+    /* No scrolling allowed */
+}
+
+#modal-title {
+    font-size: 1.5rem;
+    margin: 0 0 5px 0;
+    text-transform: capitalize;
+    font-weight: 700;
+    color: var(--brand-blue);
+    /* display: -webkit-box;  <-- REMOVE Clamp for desktop */
+    /* -webkit-line-clamp: 2; */
+    /* line-clamp: 2; */
+    /* -webkit-box-orient: vertical; */
+    /* overflow: hidden; */
+    line-height: 1.1;
+    white-space: normal;
+    /* Allow wrap */
+}
+
+#modal-price {
+    font-size: 1.1rem;
+    color: var(--brand-blue);
+    margin: 0 0 5px 0;
+}
+
+/* .modal-tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-tab-button {
+    background: none;
+    border: none;
+    padding: 10px 15px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s, border-bottom 0.2s;
+    border-bottom: 2px solid transparent;
+}
+
+.modal-tab-button:hover {
+    color: #fff;
+}
+
+.modal-tab-button.active {
+    color: #fff;
+    border-bottom: 2px solid var(--brand-blue);
+}
+
+.modal-tab-content {
+    display: none;
+}
+
+.modal-tab-content.active {
+    display: block;
+} */
+
+.variant-group {
+    margin-bottom: 15px;
+}
+
+.variant-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--brand-blue);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.variant-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+    gap: 10px;
+}
+
+.v-mark-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    /* Prevent clipping of extended text */
+    /* Subtle blue drop shadow */
+    filter: drop-shadow(0 0 10px rgba(74, 105, 132, 0.3));
+}
+
+.v-text {
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 32px;
+    fill: var(--brand-blue);
+    /* Skyline Blue */
+    opacity: 0.9;
+    transition: fill 0.3s ease;
+}
+
+/* REBRAND: V-Mark Sizing & Positioning */
+#brand-anchor-v {
+    position: fixed;
+    /* Changed to fixed to stick on scroll */
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 250px;
+    /* Reduced from full width for logo feel */
+    height: auto;
+    z-index: 100;
+    pointer-events: auto;
+    /* Ensure clickable */
+    transition: transform 0.3s ease;
+}
+
+#brand-anchor-v:hover {
+    transform: translateX(-50%) scale(1.05);
+    /* Subtle interaction */
+}
+
+/* Updated V-Mark Architecture */
+.v-main-shape {
+    stroke: var(--brand-blue);
+    stroke-width: 1.5px;
+    fill: none;
+    stroke-linecap: square;
+    opacity: 0.9;
+    transition: stroke 0.3s ease;
+}
+
+.v-anchor-container:hover .v-main-shape {
+    stroke: #ffffff;
+    /* White flush on hover */
+}
+
+/* Text Becomes Accent */
+.v-text {
+    font-family: 'Monsieur La Doulaise', cursive;
+    font-size: 20px;
+    /* Reduced to accent size */
+    letter-spacing: 2px;
+    /* Increased readability */
+    fill: var(--brand-blue);
+    opacity: 0.9;
+    transition: fill 0.3s ease;
+}
+
+.v-anchor-container:hover .v-text {
+    fill: #ffffff;
+}
+
+.v-btn {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.v-btn:hover {
+    border-color: #fff;
+}
+
+.v-btn.selected {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+#addToBagBtn {
+    width: 100%;
+    padding: 12px;
+    background: var(--brand-blue);
+    color: #fff;
+    border: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 10px 0;
+}
+
+#addToBagBtn:hover {
+    background: #fff;
+    color: var(--brand-blue);
+}
+
+#addToBagBtn:active {
+    transform: scale(0.98);
+}
+
+#addToBagBtn.pulsing {
+    animation: btnPulse 0.4s ease-out;
+    background: #FFD700;
+}
+
+@keyframes btnPulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.05);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* --- MODAL ENHANCEMENTS --- */
+.purchase-controls {
+    margin-bottom: 20px;
+}
+
+.variant-group {
+    margin-bottom: 15px;
+}
+
+.variant-group label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--brand-blue);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.variant-group label span {
+    color: #fff;
+    /* Highlight selected value */
+    font-weight: 700;
+}
+
+.active-swatch-indicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    margin: 5px 0 10px 0;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+/* Thumbnail Grid */
+.variant-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(36px, 1fr));
+    gap: 6px;
+    width: 100%;
+    overflow: visible;
+}
+
+.variant-thumb {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    overflow: hidden;
+    transition: all 0.2s;
+    background-size: cover;
+    background-position: center;
+}
+
+.variant-thumb:hover {
+    border-color: #fff;
+    transform: scale(1.05);
+}
+
+.variant-thumb.selected {
+    border-color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.2);
+    transform: scale(1.05);
+}
+
+/* Size Buttons */
+.size-options {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    max-height: none;
+    overflow: visible;
+}
+
+.size-btn {
+    min-width: 32px;
+    height: 32px;
+    padding: 0 8px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.size-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: #fff;
+}
+
+.size-btn.selected {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+    font-weight: 700;
+}
+
+/* Tab System */
+/* Tabs Removed */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Product Grid */
+.product-grid {
+    position: relative;
+    width: 100%;
+    /* min-height: 100vh; Removed to let content dictate size, but good to keep for fill */
+    min-height: 100vh;
+    background: #000;
+    z-index: 20;
+    /* Above background */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    /* Minimal gap */
+    /* padding-top: 100vh; REMOVED - using natural flow now */
+    padding-top: 0;
+    box-sizing: border-box;
+    margin-top: 0;
+    /* Attach directly to hero */
+}
+
+.grid-item {
+    position: relative;
+    height: 80vh;
+    /* Tall cinematic cards */
+    overflow: hidden;
+    cursor: pointer;
+    /* Scroll Reveal Animation */
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.grid-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.grid-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+    filter: none;
+}
+
+.grid-item:hover img {
+    transform: scale(1.05);
+    filter: grayscale(0%);
+}
+
+.grid-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+    transform: translateY(100%);
+    transition: transform 0.4s ease;
+    box-sizing: border-box;
+}
+
+.grid-item:hover .grid-info {
+    transform: translateY(0);
+}
+
+.grid-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.5rem;
+    color: #fff;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.grid-price {
+    font-family: 'Montserrat', sans-serif;
+    color: var(--brand-blue);
+    font-size: 1.2rem;
+}
+
+/* Ensure Spotlight is clickable */
+#spotlight-image {
+    cursor: pointer;
+}
+
+/* --- MOBILE VERTICAL STACK (THE PIVOT) --- */
+@media screen and (max-width: 768px) {
+
+    /* Modal becomes Vertical Stack */
+    .modal-content {
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        max-width: none;
+        max-height: none;
+        border-radius: 0;
+    }
+
+    /* Top Half: Image */
+    .modal-image-col {
+        flex: 0 0 50%;
+        width: 100%;
+        height: 50%;
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    /* Bottom Half: Info - SCROLLABLE with Sticky Button */
+    .modal-info-col {
+        flex: 0 0 50%;
+        width: 100%;
+        height: 50%;
+        padding: 15px;
+        justify-content: flex-start;
+        display: block;
+        position: relative;
+        overflow-y: auto;
+        overflow-x: hidden;
+        padding-bottom: 70px;
+        /* Space for the sticky button */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Typography Adjustments for Tight Space */
+    #modal-title {
+        font-size: 1.1rem;
+        line-height: 1.2;
+        margin-bottom: 6px;
+        min-height: auto;
+        max-height: none;
+        overflow: visible;
+        white-space: normal;
+        word-wrap: break-word;
+    }
+
+    #modal-price {
+        font-size: 1.05rem;
+        margin-bottom: 8px;
+    }
+
+    /* Compact Variants for Mobile */
+    .variant-options {
+        grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+        gap: 3px;
+        margin-bottom: 8px;
+    }
+
+    .variant-thumb {
+        border-radius: 4px;
+        height: 30px;
+        width: 100%;
+    }
+
+    /* Sticky Button Area */
+    #addToBagBtn {
+        position: fixed;
+        bottom: 15px;
+        left: 15px;
+        width: calc(100% - 30px);
+        z-index: 2000;
+        margin: 0;
+        height: 44px;
+        font-size: 0.9rem;
+    }
+
+    /* Close Button Positioning */
+    #closeModal {
+        top: 10px;
+        right: 15px;
+        font-size: 2rem;
+        z-index: 100;
+        background: rgba(0, 0, 0, 0.5);
+        /* Background for text visibility over image */
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+    }
+
+    /* REFINEMENTS: Mobile Fixes */
+
+    /* 1. Narrow V-Mark Hitbox */
+    #brand-anchor-v {
+        width: 160px;
+        /* Reduced from 250px/default */
+        bottom: 15px;
+        /* Ensure it doesn't block grid clicks broadly */
+        max-width: 50%;
+    }
+
+    /* 2. Grid Images: Full Fit (No Crop) */
+    .grid-item img {
+        object-fit: contain;
+        background: #000;
+        /* Letterbox fill */
+        object-position: center;
+    }
+
+
+
+    /* Ensure Spotlight Image doesn't block either */
+    #spotlight-image {
+        pointer-events: none;
+    }
+}
+
+/* --- CART SYSTEM --- */
+.cart-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 400px;
+    height: 100vh;
+    background: #000;
+    z-index: 10001;
+    /* Above Modal (9999) and Preloader (10000) */
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.8);
+}
+
+.cart-panel.open {
+    transform: translateX(0);
+}
+
+.cart-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: #111;
+}
+
+.cart-header h2 {
+    font-family: 'Cinzel', serif;
+    font-size: 1.2rem;
+    color: #fff;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.cart-header button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.cart-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.cart-item {
+    display: flex;
+    gap: 15px;
+    background: #111;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.cart-item img {
+    width: 80px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.cart-item-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.cart-item-title {
+    font-family: 'Cinzel', serif;
+    font-size: 0.9rem;
+    color: #fff;
+    margin: 0;
+}
+
+.cart-item-variant {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    color: #aaa;
+    margin: 5px 0 0 0;
+}
+
+.cart-item-price {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    color: #FFD700;
+    margin-top: 5px;
+}
+
+.remove-item {
+    background: none;
+    border: none;
+    color: #666;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    cursor: pointer;
+    align-self: flex-start;
+    padding: 0;
+    margin-top: auto;
+}
+
+.remove-item:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.cart-footer {
+    padding: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.cart-subtotal {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    color: #fff;
+}
+
+#checkoutBtn,
+#continueShoppingBtn {
+    width: 100%;
+    padding: 15px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+#checkoutBtn {
+    background: #fff;
+    color: #000;
+}
+
+#checkoutBtn:hover {
+    background: #ccc;
+}
+
+#continueShoppingBtn {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+}
+
+#continueShoppingBtn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(4px);
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+}
+
+.cart-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.empty-cart-message {
+    color: #666;
+    text-align: center;
+    margin-top: 40px;
+    font-family: 'Inter', sans-serif;
+}
+
+@media screen and (max-width: 768px) {
+    .cart-panel {
+        width: 100vw;
+        /* Full width on mobile */
+    }
+}
+
+/* --- CURSOR CONSISTENCY FIX --- */
+button,
+.cart-header button,
+.remove-item,
+#cartIcon,
+.size-btn,
+.variant-thumb,
+.v-btn,
+#checkoutBtn,
+#continueShoppingBtn,
+.grid-item,
+.spotlight-image,
+.dopamine-word.interactive {
+    cursor: pointer !important;
+}
+
+/* Ensure hover states are obvious everywhere where valid */
+button:hover,
+.action-btn:hover {
+    opacity: 0.8;
+}
+
+/* Card Visual Removed */
+
+/* --- CHECKOUT OVERLAY --- */
+.checkout-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 10002;
+    /* Above Cart Panel */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.checkout-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.checkout-container {
+    background: #111;
+    width: 900px;
+    max-width: 95vw;
+    height: auto;
+    /* max-height: 95vh;  <-- REMOVE THIS to prevent clipping on large screens */
+    min-height: 700px;
+    /* Ensure ample vertical space */
+    border-radius: 12px;
+    /* Ensure space for card */
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    /* overflow: hidden;  <-- REMOVE THIS to prevent clipping if child expands */
+    overflow: visible;
+}
+
+.checkout-header {
+    padding: 20px 30px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #1a1a1a;
+}
+
+.checkout-header h2 {
+    font-family: 'Cinzel', serif;
+    color: #fff;
+    margin: 0;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+}
+
+.checkout-header button {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    line-height: 1;
+}
+
+.checkout-body {
+    display: flex;
+    flex: 1;
+    overflow: visible;
+    /* Was auto. Make visible to prevent internal clipping */
+    min-height: 500px;
+}
+
+/* Left Col: Summary */
+.checkout-summary {
+    flex: 0.8;
+    background: #0d0d0d;
+    padding: 30px;
+    border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.checkout-summary h3 {
+    font-family: 'Inter', sans-serif;
+    color: #888;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 1px;
+    margin-top: 0;
+}
+
+#checkout-items-list {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.checkout-item-row {
+    display: flex;
+    gap: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.checkout-item-row img {
+    width: 60px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.chk-details {
+    flex: 1;
+}
+
+.chk-title {
+    color: #fff;
+    font-size: 0.9rem;
+    margin: 0 0 5px 0;
+    font-family: 'Cinzel', serif;
+}
+
+.chk-variant {
+    color: #666;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.chk-price {
+    color: #FFD700;
+    font-weight: bold;
+}
+
+.checkout-total-row {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    justify-content: space-between;
+    color: #fff;
+    font-family: 'Cinzel', serif;
+    font-size: 1.4rem;
+}
+
+/* Right Col: Payment */
+.checkout-payment {
+    flex: 1.2;
+    padding: 40px;
+    padding-bottom: 100px;
+    /* Nuclear padding to ensure card bottom is never clipped */
+    background: #111;
+    overflow: visible;
+    /* Ensure nothing clips the card shadow/edge */
+    position: relative;
+    z-index: 5;
+}
+
+.express-pay-section {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.express-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: not-allowed !important;
+    /* Visual disabled */
+    opacity: 0.5;
+}
+
+.apple-pay {
+    background: #fff;
+    color: #000;
+}
+
+.g-pay {
+    background: #000;
+    color: #fff;
+    border: 1px solid #333;
+}
+
+.divider {
+    text-align: center;
+    color: #444;
+    font-size: 0.8rem;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 30%;
+    height: 1px;
+    background: #222;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+/* Visual Card */
+.card-visual {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #1e1e1e, #000);
+    border-radius: 12px;
+    margin-bottom: 30px;
+    position: relative;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-visual::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0aD0iNCIgaGVpZ2h0PSI0IiBmaWxsPSIjZmZmIiBmaWxsLW9wYWNpdHk9IjAuMDUiLz4KPC9zdmc+');
+    opacity: 0.3;
+}
+
+.chip {
+    width: 40px;
+    height: 30px;
+    background: linear-gradient(135deg, #d4af37, #f7ef8a);
+    border-radius: 4px;
+    margin-bottom: 40px;
+}
+
+.card-number {
+    font-family: 'Courier Prime', monospace;
+    font-size: 1.4rem;
+    color: #fff;
+    letter-spacing: 4px;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.5);
+    margin-bottom: 25px;
+}
+
+.card-details {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Inter', sans-serif;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+.mastercard-logo {
+    position: absolute;
+    bottom: 25px;
+    right: 25px;
+    width: 40px;
+    height: 25px;
+    background: #eb001b;
+    border-radius: 15px;
+    opacity: 0.8;
+}
+
+.mastercard-logo::after {
+    content: '';
+    position: absolute;
+    left: -15px;
+    width: 40px;
+    height: 25px;
+    background: #f79e1b;
+    border-radius: 15px;
+    mix-blend-mode: screen;
+}
+
+/* Payment Form */
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.chk-input {
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid #333;
+    padding: 10px 0;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.chk-input:focus {
+    border-bottom-color: #FFD700;
+}
+
+.payment-form .row {
+    display: flex;
+    gap: 15px;
+}
+
+.payment-form .half {
+    flex: 1;
+}
+
+#completeOrderBtn {
+    margin-top: 20px;
+    background: #fff;
+    color: #000;
+    border: none;
+    padding: 15px;
+    border-radius: 4px;
+    font-weight: 800;
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 1px;
+    transition: all 0.3s;
+}
+
+#completeOrderBtn:hover {
+    background: #ccc;
+    transform: scale(0.98);
+}
+
+/* Success State */
+.checkout-success {
+    position: absolute;
+    background: #111;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.checkout-success.hidden {
+    display: none;
+}
+
+.success-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #FFD700;
+    color: #FFD700;
+    font-size: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 215, 0, 0.1);
+    }
+
+    50% {
+        transform: scale(1.1);
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+    }
+
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 rgba(255, 215, 0, 0.1);
+    }
+}
+
+#successCloseBtn {
+    margin-top: 30px;
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 10px 30px;
+}
+
+/* Mobile Responsive */
+@media screen and (max-width: 768px) {
+    .checkout-body {
+        flex-direction: column;
+    }
+
+    .checkout-summary,
+    .checkout-payment {
+        flex: auto;
+    }
+
+    .checkout-summary {
+        order: -1;
+        /* Summary on top */
+        padding: 20px;
+    }
+
+    .checkout-container {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+    }
+}
+
+/* --- VUE CREDIT CARD STYLES --- */
+.card-item {
+    width: 100%;
+    max-width: 430px;
+    height: 280px;
+    /* Increased from 270px to ensure full content fits */
+    margin: 0 auto 40px;
+    /* Increased bottom margin */
+    position: relative;
+    z-index: 2;
+    perspective: 1000px;
+}
+
+.card-item__side {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
+    transform: perspective(2000px) rotateY(0deg) rotateX(0deg) scale(1);
+    transform-style: preserve-3d;
+    transition: transform 0.6s cubic-bezier(0.4, 0.0, 0.2, 1);
+    /* Smoother, standard easing */
+    backface-visibility: hidden;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.card-item__side.-back {
+    transform: perspective(2000px) rotateY(180deg) rotateX(0deg) scale(1);
+}
+
+.card-item__bg {
+    max-width: 100%;
+    border-radius: 15px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+.card-item__wrapper {
+    padding: 25px;
+    position: relative;
+    z-index: 4;
+    height: 100%;
+    text-shadow: 7px 6px 10px rgba(14, 42, 90, 0.8);
+    user-select: none;
+}
+
+.card-item__focus {
+    position: absolute;
+    z-index: 3;
+    border-radius: 5px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.35s cubic-bezier(0.71, 0.03, 0.56, 0.85);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.65);
+}
+
+.card-item__focus.active {
+    opacity: 1;
+}
+
+.card-item__cover {
+    height: 100%;
+    background-color: #1c1d27;
+    position: absolute;
+    height: 100%;
+    background-color: #1c1d27;
+    left: 0;
+    top: 0;
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.card-item__cover:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(6, 2, 29, 0.45);
+}
+
+.card-item__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.card-item__chip {
+    width: 60px;
+}
+
+.card-item__type {
+    height: 45px;
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+    max-width: 100px;
+    margin-left: auto;
+    width: 100%;
+}
+
+.card-item__typeImg {
+    max-width: 100%;
+    object-fit: contain;
+    max-height: 100%;
+}
+
+.card-item__info {
+    color: #fff;
+    width: 100%;
+    max-width: calc(100% - 85px);
+    padding: 10px 15px;
+    font-weight: 500;
+    display: block;
+    cursor: pointer;
+    margin-bottom: 5px;
+    /* Lift it slightly if needed */
+}
+
+.card-item__holder {
+    opacity: 0.7;
+    font-size: 13px;
+    margin-bottom: 6px;
+}
+
+.card-item__name {
+    font-size: 18px;
+    line-height: 1;
+    white-space: nowrap;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    font-family: "Courier New", monospace;
+    letter-spacing: 2px;
+}
+
+.card-item__date {
+    flex-wrap: wrap;
+    font-size: 18px;
+    margin-left: auto;
+    padding: 10px;
+    display: inline-flex;
+    width: 80px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.card-item__dateTitle {
+    opacity: 0.7;
+    font-size: 13px;
+    padding-bottom: 6px;
+    width: 100%;
+}
+
+.card-item__band {
+    background: rgba(0, 0, 19, 0.8);
+    width: 100%;
+    height: 50px;
+    margin-top: 30px;
+    position: relative;
+    z-index: 2;
+}
+
+.card-item__cvv {
+    text-align: right;
+    position: relative;
+    z-index: 2;
+    padding: 15px;
+}
+
+.card-item__cvvTitle {
+    padding-right: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.card-item__cvvBand {
+    height: 45px;
+    background: #fff;
+    margin-bottom: 30px;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10px;
+    color: #1a3b5d;
+    font-size: 18px;
+    border-radius: 4px;
+    box-shadow: 0px 10px 20px -7px rgba(32, 56, 117, 0.35);
+}
+
+.card-item.-active .card-item__side.-front {
+    transform: perspective(1000px) rotateY(180deg) rotateX(0deg) scale(1);
+}
+
+.card-item.-active .card-item__side.-back {
+    transform: perspective(1000px) rotateY(0deg) rotateX(0deg) scale(1);
+}
+
+.card-number {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 35px;
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-family: "Courier New", monospace;
+    letter-spacing: 2px;
+}
+
+/* Override checkout-payment styling for Vue mount */
+#card-mount-point {
+    display: flex;
+    flex-direction: column;
+    align-items: center !important;
+}
+
+/* --- VUE CARD INPUTS (Missing Block) --- */
+.card-input {
+    margin-bottom: 20px;
+}
+
+.card-input__label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    width: 100%;
+    display: block;
+    user-select: none;
+}
+
+.card-input__input {
+    width: 100%;
+    height: 50px;
+    border-radius: 5px;
+    box-shadow: none;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease-in-out;
+    font-size: 18px;
+    padding: 5px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    color: white;
+    font-family: inherit;
+}
+
+.card-input__input:focus {
+    border-color: #3d9cff;
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+
+/* --- VUE CREDIT CARD FIXES --- */
+
+/* 1. Fix Vertical Stacking of Numbers */
+.card-number {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    justify-content: space-between;
+    /* Spread groups slightly */
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    cursor: pointer;
+}
+
+.card-item__numberItem {
+    display: inline-block !important;
+    width: auto !important;
+    min-width: 10px;
+    /* Base width for a digit */
+}
+
+/* Ensure the spaces between groups (every 4 digits) have some real width if using spans */
+.card-item__numberItem.-active {
+    width: 15px !important;
+    /* Spaces */
+}
+
+/* 2. Fix Missing/Cramped Labels on Card Face */
+.card-item__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-top: 10px;
+}
+
+.card-item__info {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 65%;
+}
+
+.card-item__holder {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 4px;
+    opacity: 1 !important;
+    /* Ensure visible */
+}
+
+.card-item__name {
+    font-family: "Courier New", monospace;
+    font-size: 18px;
+    color: #fff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    width: 100%;
+}
+
+.card-item__date {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-end;
+    /* Align right */
+}
+
+.card-item__dateTitle {
+    font-size: 11px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 4px;
+    opacity: 1 !important;
+    width: auto !important;
+}
+
+.card-item__dateItem {
+    font-family: "Courier New", monospace;
+    font-size: 18px;
+    color: #fff;
+    display: inline-block;
+}
+
+/* 3. Fix Cramped Inputs in Form */
+.card-input {
+    margin-bottom: 25px !important;
+    /* More breathing room */
+}
+
+.card-input__label {
+    margin-bottom: 8px !important;
+    letter-spacing: 0.5px;
+}
+
+.chk-input,
+.card-input__input {
+    height: 55px !important;
+    /* Taller touch targets */
+    padding-left: 18px !important;
+    font-size: 16px !important;
+}
+
+/* --- EMERGENCY CARD LAYOUT OVERRIDES --- */
+
+/* Force horizontal layout for card numbers */
+.card-number {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-direction: row !important;
+}
+
+/* Ensure individual digits don't take full width */
+.card-item__numberItem {
+    width: auto !important;
+    display: inline-block !important;
+    font-family: "Courier New", monospace !important;
+    font-size: 20px !important;
+}
+
+/* Force Card Holder Name Visibility */
+.card-item__info {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    z-index: 10;
+}
+
+.card-item__name {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
+    color: #fff !important;
+    font-size: 16px !important;
+    text-transform: uppercase !important;
+    width: 100% !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+}
+
+/* Force Expiry Date Visibility */
+.card-item__date {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    z-index: 10;
+}
+
+.card-item__dateItem {
+    color: #fff !important;
+    opacity: 1 !important;
+    font-size: 16px !important;
+}
+
+/* --- EXPIRY DATE FIX --- */
+/* Force MM / YY to sit side-by-side */
+.card-item__date {
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
+    /* Force row */
+    justify-content: flex-end !important;
+    width: auto !important;
+}
+
+.card-item__dateItem {
+    display: inline-block !important;
+    margin: 0 2px !important;
+    position: relative !important;
+}
+
+/* Fix the slash or separator if present */
+.card-item__dateTitle {
+    display: block !important;
+    width: 100% !important;
+    text-align: right !important;
+}
+
+/* --- MOBILE INPUT POLISH --- */
+/* Ensure inputs on small screens have enough padding and don't look crushed */
+@media screen and (max-width: 480px) {
+
+    .chk-input,
+    .card-input__input {
+        font-size: 16px !important;
+        /* Prevent zoom on iOS */
+        padding: 0 10px !important;
+    }
+
+    .card-item {
+        /* JS handles scaling now */
+        transform-origin: center top;
+        margin-left: 0;
+    }
+}
+
+/* --- QUANTITY SELECTOR --- */
+.quantity-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+}
+
+.qty-btn {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.qty-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: #fff;
+}
+
+#qty-input {
+    width: 50px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 1.1rem;
+    text-align: center;
+    font-weight: bold;
+    -moz-appearance: textfield;
+    /* Hide default spinners */
+}
+
+#qty-input::-webkit-outer-spin-button,
+#qty-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* --- CHECKOUT INPUT ALIGNMENT (POLISH) --- */
+/* Center text in Card Number and Name inputs per user request */
+#cardNumber,
+#cardName,
+#qty-input {
+    text-align: center;
+}
+
+/* Ensure CVC is fully visible and not cut off */
+#cardCvv {
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+/* Smoother Card Flip Transition Refinement */
+.card-item,
+.card-item__side {
+    transition: transform 0.8s cubic-bezier(0.71, 0.03, 0.56, 0.85);
+}
+
+/* --- SECURE CHECKOUT SIMPLIFICATION (MOBILE ONLY) --- */
+@media screen and (max-width: 768px) {
+
+    /* 1. Layout Layout - Single Column, Centralized */
+    .checkout-body {
+        flex-direction: column !important;
+        padding: 0 !important;
+        overflow-y: auto;
+        /* Allow scroll if needed, but aim for fit */
+    }
+
+    /* Remove Split Columns logic if any remains */
+    .checkout-payment {
+        flex: 1 !important;
+        width: 100% !important;
+        max-width: 500px !important;
+        /* Limit width on desktop for focus */
+        margin: 0 auto !important;
+        padding: 20px !important;
+        background: transparent !important;
+        /* Blend with container */
+    }
+
+    /* 2. Compact Spacing for No-Scroll Goal */
+    .express-pay-section {
+        margin-bottom: 20px !important;
+    }
+
+    .divider {
+        margin-bottom: 20px !important;
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
+
+    .card-visual {
+        margin-bottom: 20px !important;
+        /* Card visual styles from Vue component might override, ensure card-item margin is handled */
+    }
+
+    /* Vue Card Component Spacing Overrides */
+    .card-item {
+        margin-bottom: 25px !important;
+        /* Increased margin */
+        height: 260px !important;
+        /* Increased from 240px to stop bottom clipping */
+        transform: scale(0.95);
+        /* Slight scale down to fit width if needed, but height is key */
+        transform-origin: center top;
+    }
+
+    /* Tighter Form inputs */
+    .card-input {
+        margin-bottom: 15px !important;
+    }
+
+    .chk-input,
+    .card-input__input {
+        height: 48px !important;
+        /* Slightly more compact but still touchable */
+    }
+
+    /* 3. Primary CTA (Pay Button) */
+    #completeOrderBtn {
+        width: 100%;
+        margin-top: 10px !important;
+        padding: 18px !important;
+        font-size: 1.1rem !important;
+        background: #FFD700 !important;
+        /* Gold for conversion */
+        color: #000 !important;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+}
+
+/* END MOBILE ONLY QUERY */
+
+/* Mobile Specific Tweaks for "Above Fold" feel */
+@media screen and (max-height: 850px) and (max-width: 768px) {
+    .checkout-header {
+        padding: 15px 20px !important;
+    }
+
+    .checkout-payment {
+        padding-top: 10px !important;
+    }
+
+    .card-item {
+        transform-origin: top center;
+        transform: scale(0.9);
+        /* Scale down visual slightly on smaller screens to fit form */
+        margin-bottom: 10px !important;
+    }
+}
+
+/* --- CHECKOUT VISUAL OVERHAUL & LAYOUT OPTIMIZATIONS --- */
+
+/* 1. Credit Card Visual Fixes (Stop Cutoff) */
+/* Moving labels up to avoid bottom edge clipping */
+.card-item__dateTitle,
+.card-item__nameTitle {
+    bottom: 25px !important;
+    /* Bump up from default position */
+    opacity: 0.8 !important;
+}
+
+.card-item__date,
+.card-item__name {
+    bottom: 5px !important;
+    /* Ensure content doesn't overlap title */
+}
+
+/* 2. Premium Input Redesign ("Trusting" Aesthetic) */
+/* Container clean up */
+.card-input {
+    margin-bottom: 15px !important;
+}
+
+/* Labels: Caps, Technical, Premium */
+.card-input__label {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.75rem !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    color: rgba(255, 255, 255, 0.6) !important;
+    margin-bottom: 8px !important;
+    margin-left: 2px !important;
+    /* Align with input curve */
+    font-weight: 500 !important;
+}
+
+/* Inputs: Dark Glass, Subtle Border, Gold Focus */
+.chk-input,
+.card-input__input {
+    height: 50px !important;
+    background: rgba(0, 0, 0, 0.3) !important;
+    /* Deep dark glass */
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 12px !important;
+    /* More modern curve */
+    color: #fff !important;
+    font-family: 'Inter', monospace !important;
+    /* Tech feel for numbers */
+    font-size: 1rem !important;
+    padding: 0 16px !important;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.2) !important;
+    /* Inner depth */
+}
+
+.chk-input:focus,
+.card-input__input:focus {
+    border-color: #FFD700 !important;
+    box-shadow: 0 0 0 1px rgba(255, 215, 0, 0.1), inset 0 2px 5px rgba(0, 0, 0, 0.3) !important;
+    background: rgba(255, 255, 255, 0.05) !important;
+    outline: none !important;
+}
+
+/* Placeholder styling */
+.chk-input::placeholder,
+.card-input__input::placeholder {
+    color: rgba(255, 255, 255, 0.2) !important;
+}
+
+/* Select inputs (Month/Year) alignment */
+.card-form__row select {
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFD700%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: right 15px center !important;
+    background-size: 10px !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+}
+
+/* 3. Layout Optimization (Eliminate Mobile Scroll) */
+.checkout-header {
+    padding: 10px 20px !important;
+    /* Reduce vertical padding */
+}
+
+/* Shrink Divider */
+.divider {
+    margin: 10px 0 !important;
+    font-size: 0.7rem !important;
+    opacity: 0.5 !important;
+}
+
+/* Tighter Express Pay */
+.express-pay-section {
+    margin-bottom: 10px !important;
+}
+
+/* Pay Button */
+#completeOrderBtn {
+    margin-top: 15px !important;
+    border-radius: 12px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    /* Ensure no obscured layout */
+    position: relative;
+    z-index: 10;
+}
+
+/* Mobile Specific Scaling */
+@media screen and (max-width: 450px) {
+
+    /* Scale the credit card visual down to save massive vertical space */
+    .card-item {
+        margin-bottom: 5px !important;
+        transform: scale(0.85);
+        /* 85% size */
+        transform-origin: center top;
+        /* Compensate for space left by scaling */
+        margin-top: -10px !important;
+        margin-bottom: -30px !important;
+    }
+
+    .checkout-payment {
+        padding: 10px 15px !important;
+    }
+
+    .card-input {
+        margin-bottom: 10px !important;
+    }
+
+    /* Ensure Pay Button is visible */
+    #completeOrderBtn {
+        padding: 16px !important;
+    }
+}
+
+/* --- CHECKOUT MOBILE FIT FIX (NO HORIZONTAL SCROLL) --- */
+
+/* 1. Global Safety for Checkout */
+.checkout-modal,
+.checkout-body,
+.checkout-payment {
+    max-width: 100vw !important;
+    overflow-x: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* 2. Input Field Containment (The Squeeze) */
+.card-input,
+.form-group {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.chk-input,
+.card-input__input {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    /* CRITICAL: Includes padding in width */
+}
+
+/* 3. Card Visual Scaling (Mobile Only) */
+@media screen and (max-width: 500px) {
+
+    /* Main container padding to prevent edge touching */
+    .checkout-payment {
+        padding: 10px 20px !important;
+    }
+
+    /* Force the card wrapper to not exceed screen width */
+    .wrapper,
+    .card-item {
+        max-width: none !important;
+        width: 430px !important;
+        box-sizing: border-box !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+    }
+
+    /* Ensure the scale transform doesn't cause overflow phantom width */
+    .card-item {
+        transform-origin: center top !important;
+        /* Aggressive scale to 0.65 to fit 320px SE screens and ensure 375px is roomy */
+        transform: scale(0.65) !important;
+        margin-top: -10px !important;
+        margin-bottom: -45px !important;
+        min-height: 240px !important;
+    }
+
+    /* Input text size adjustment for small screens */
+    .chk-input,
+    .card-input__input {
+        font-size: 16px !important;
+        /* Prevents auto-zoom on iOS */
+    }
+}
+/* --- OOS STATES --- */
+.size-btn.disabled {
+    opacity: 0.4;
+    text-decoration: line-through;
+    cursor: not-allowed;
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.1);
+}
+
+#addToBagBtn:disabled {
+    background: #333;
+    color: #777;
+    cursor: not-allowed;
+    opacity: 0.7;
+    box-shadow: none;
+    transform: none;
+}
