@@ -17,11 +17,11 @@ body {
     /* Allow grow */
     height: auto;
     /* Prevent scroll lock */
-    /* Fix: Prevent white background on overscroll/diagonal scroll */
     background-color: var(--dark-bg);
     overflow-x: hidden;
-    overflow-y: auto;
-    /* Force vertical scroll */
+    /* Keep x hidden to prevent wheel drift */
+    overflow-y: visible;
+    /* FORCE DEFAULT SCROLL */
 }
 
 /* ... (omitted body styles) ... */
@@ -596,10 +596,13 @@ body {
     /* --- PRODUCT GRID --- */
     .product-grid {
         position: relative;
+        /* Relative flow */
         width: 100%;
         min-height: 100vh;
+        /* Occupy full screen */
         background: #000;
-        z-index: 20;
+        z-index: 50;
+        /* Ensure above fixed bg/text */
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 1px;

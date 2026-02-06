@@ -1,42 +1,13 @@
 // app.js - Final UI Logic
 
-const TOTAL_WHEELS = 2; // Reduced for simplicity
+const TOTAL_WHEELS = 2;
 const CHUNK_SIZE = 12;
 
-// --- GLOBAL DEBUGGER ---
-// Catches all errors and displays them on screen
-window.onerror = function (msg, url, lineNo, columnNo, error) {
-    const debugBox = document.getElementById('debug-status') || createDebugBox();
-    debugBox.style.height = 'auto';
-    debugBox.style.maxHeight = '50vh';
-    debugBox.style.background = 'darkred';
-    debugBox.innerHTML += `<br>❌ ERROR: ${msg} (Line ${lineNo})`;
-    return false;
-};
-
 // --- DATA ACCESSOR (SAFE) ---
-// Ensures product data is actually loaded
 function getProducts() {
     if (typeof window.railProducts !== 'undefined' && window.railProducts.length > 0) return window.railProducts;
     if (typeof window.nastyCollectionProducts !== 'undefined') return window.nastyCollectionProducts;
     return [];
-}
-
-function createDebugBox() {
-    const status = document.createElement('div');
-    status.id = 'debug-status';
-    status.style.position = 'fixed';
-    status.style.bottom = '10px';
-    status.style.left = '10px';
-    status.style.background = 'blue';
-    status.style.color = 'white';
-    status.style.padding = '5px';
-    status.style.zIndex = '99999';
-    status.style.fontSize = '12px';
-    status.style.pointerEvents = 'none';
-    status.innerText = "DEBUG: System Initializing...";
-    document.body.appendChild(status);
-    return status;
 }
 
 // Global State
@@ -46,7 +17,8 @@ let currentSpotlightProduct = null;
 let currentSpotlightVariantIndex = 0;
 let spotlightCycleTimeout;
 // Dopamine State
-const dopamineNodes = []; // Fixed pool of DOM elements
+const dopamineNodes = [];
+
 
 // --- 0. DATA HARMONIZATION REMOVED PER USER REQUEST ---
 // Logic replaced by STRICT VARIANT ENFORCEMENT below.
@@ -1609,25 +1581,6 @@ function renderGrid() {
         };
         grid.appendChild(card);
     });
-
-    // DEBUG: VISUAL CONFIRMATION FOR USER/DEV
-    let status = document.getElementById('debug-status');
-    if (!status) {
-        status = document.createElement('div');
-        status.id = 'debug-status';
-        status.style.position = 'fixed';
-        status.style.bottom = '10px';
-        status.style.left = '10px';
-        status.style.background = 'red'; // Visible
-        status.style.color = 'white';
-        status.style.padding = '5px';
-        status.style.zIndex = '99999';
-        status.style.fontSize = '12px';
-        status.style.pointerEvents = 'none';
-        document.body.appendChild(status);
-    }
-    status.innerText = `DEBUG: Grid Rendered (${products.length} Items)`;
-    status.style.background = 'green'; // Success
 }
 
 // --- SCROLL REVEAL (ROBUST) ---
