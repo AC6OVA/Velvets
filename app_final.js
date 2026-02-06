@@ -1614,7 +1614,19 @@ function initGridReveal() {
     const originalRenderGrid = renderGrid;
     window.renderGrid = function () {
         originalRenderGrid();
+        // Force Reflow to ensure elements exist in DOM before observing
+        void document.body.offsetHeight;
         observeItems();
+
+        // AUTO-REVEAL SAFETY (Brute Force)
+        // If they are not visible within 500ms, force them.
+        setTimeout(() => {
+            document.querySelectorAll('.grid-item:not(.visible)').forEach(item => {
+                item.classList.add('visible');
+                item.style.opacity = '1';
+                item.style.transform = 'translateY(0)';
+            });
+        }, 500);
     };
 }
 
