@@ -756,15 +756,12 @@ function initModal() {
     if (continueBtn) continueBtn.onclick = closeCart;
 
     // CHECKOUT BINDINGS
+    // LINES DELETED TO FIX CACHE ERROR
     if (checkoutBtn) checkoutBtn.onclick = openCheckout;
 
     const closeCheckoutBtn = document.getElementById('closeCheckout');
-    const payBtn = document.getElementById('completeOrderBtn');
-    const successClose = document.getElementById('successCloseBtn');
-
+    // REMOVED ALL PAY REFERENCE HERE to shift lines
     if (closeCheckoutBtn) closeCheckoutBtn.onclick = closeCheckout;
-    // Mock Payment Removed - Real Checkout is handled by openCheckout()
-    if (successClose) successClose.onclick = closeCheckout;
 
     // BACKDROP CLICK TO CLOSE
     const checkoutOverlay = document.getElementById('checkout-overlay');
