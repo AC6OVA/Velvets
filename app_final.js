@@ -1,5 +1,44 @@
 // app.js - Final UI Logic
 
+const TOTAL_WHEELS = 2; // Reduced for simplicity
+const CHUNK_SIZE = 12;
+
+// --- GLOBAL DEBUGGER ---
+// Catches all errors and displays them on screen
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+    const debugBox = document.getElementById('debug-status') || createDebugBox();
+    debugBox.style.height = 'auto';
+    debugBox.style.maxHeight = '50vh';
+    debugBox.style.background = 'darkred';
+    debugBox.innerHTML += `<br>❌ ERROR: ${msg} (Line ${lineNo})`;
+    return false;
+};
+
+// --- DATA ACCESSOR (SAFE) ---
+// Ensures product data is actually loaded
+function getProducts() {
+    if (typeof window.railProducts !== 'undefined' && window.railProducts.length > 0) return window.railProducts;
+    if (typeof window.nastyCollectionProducts !== 'undefined') return window.nastyCollectionProducts;
+    return [];
+}
+
+function createDebugBox() {
+    const status = document.createElement('div');
+    status.id = 'debug-status';
+    status.style.position = 'fixed';
+    status.style.bottom = '10px';
+    status.style.left = '10px';
+    status.style.background = 'blue';
+    status.style.color = 'white';
+    status.style.padding = '5px';
+    status.style.zIndex = '99999';
+    status.style.fontSize = '12px';
+    status.style.pointerEvents = 'none';
+    status.innerText = "DEBUG: System Initializing...";
+    document.body.appendChild(status);
+    return status;
+}
+
 // Global State
 let railProducts = [];
 let cart = [];
