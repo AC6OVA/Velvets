@@ -605,6 +605,9 @@ body {
         gap: 1px;
         padding-top: 10px;
         margin-top: 0;
+        /* FLEX SAFETY */
+        flex-grow: 1;
+        min-width: 100%;
     }
 
     .grid-item {

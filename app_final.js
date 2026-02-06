@@ -1573,6 +1573,25 @@ function renderGrid() {
         };
         grid.appendChild(card);
     });
+
+    // DEBUG: VISUAL CONFIRMATION FOR USER/DEV
+    let status = document.getElementById('debug-status');
+    if (!status) {
+        status = document.createElement('div');
+        status.id = 'debug-status';
+        status.style.position = 'fixed';
+        status.style.bottom = '10px';
+        status.style.left = '10px';
+        status.style.background = 'red'; // Visible
+        status.style.color = 'white';
+        status.style.padding = '5px';
+        status.style.zIndex = '99999';
+        status.style.fontSize = '12px';
+        status.style.pointerEvents = 'none';
+        document.body.appendChild(status);
+    }
+    status.innerText = `DEBUG: Grid Rendered (${products.length} Items)`;
+    status.style.background = 'green'; // Success
 }
 
 // --- SCROLL REVEAL (ROBUST) ---
