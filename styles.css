@@ -13,9 +13,15 @@ body {
     margin: 0;
     padding: 0;
     width: 100%;
+    min-height: 100vh;
+    /* Allow grow */
+    height: auto;
+    /* Prevent scroll lock */
     /* Fix: Prevent white background on overscroll/diagonal scroll */
     background-color: var(--dark-bg);
     overflow-x: hidden;
+    overflow-y: auto;
+    /* Force vertical scroll */
 }
 
 /* ... (omitted body styles) ... */
@@ -677,8 +683,13 @@ body {
     html,
     body {
         overflow-x: hidden !important;
+        overflow-y: auto !important;
+        /* CRITICAL: Allow mobile scroll */
         width: 100vw !important;
         max-width: 100vw !important;
+        height: auto !important;
+        /* CRITICAL: Allow expansion */
+        min-height: 100vh !important;
         position: relative;
         /* Force Flex Column Strategy */
         display: flex;
@@ -687,6 +698,8 @@ body {
         /* Anchor to Left Viewport Edge */
         margin: 0;
         padding: 0;
+        -webkit-overflow-scrolling: touch;
+        /* Smooth iOS scroll */
     }
 
     #scene-wrapper {
@@ -3223,13 +3236,14 @@ button:hover,
         /* Prevents auto-zoom on iOS */
     }
 }
+
 /* --- OOS STATES --- */
 .size-btn.disabled {
     opacity: 0.4;
     text-decoration: line-through;
     cursor: not-allowed;
-    background: rgba(255,255,255,0.05);
-    border-color: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
 }
 
 #addToBagBtn:disabled {
