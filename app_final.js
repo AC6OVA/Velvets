@@ -763,7 +763,7 @@ function initModal() {
     const successClose = document.getElementById('successCloseBtn');
 
     if (closeCheckoutBtn) closeCheckoutBtn.onclick = closeCheckout;
-    if (payBtn) payBtn.onclick = processMockPayment; // Must prevent default in HTML or Logic
+    // Mock Payment Removed - Real Checkout is handled by openCheckout()
     if (successClose) successClose.onclick = closeCheckout;
 
     // BACKDROP CLICK TO CLOSE
